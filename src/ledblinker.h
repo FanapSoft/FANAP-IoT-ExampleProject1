@@ -16,7 +16,7 @@ public:
         pinMode(pin, OUTPUT);
     }
 
-    void set_onoff_list(const int* statelist) {
+    void set_pattern(const int* statelist) {
         this->statelist = statelist;
         index  = 0;
         blink_time = millis();
@@ -25,9 +25,9 @@ public:
 
     void set_state(int value) {
         if (value) {
-            set_onoff_list(_on_state);
+            set_pattern(_on_state);
         } else {
-            set_onoff_list(_off_state);
+            set_pattern(_off_state);
         }
     }
 
