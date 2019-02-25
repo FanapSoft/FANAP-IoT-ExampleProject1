@@ -3,6 +3,10 @@
 
 #include "Arduino.h"
 
+const int _on_state[] = {1000,0};
+const int _off_state[] = {-1000,0};
+
+
 class LedBlinker
 {
 public:
@@ -12,11 +16,19 @@ public:
         pinMode(pin, OUTPUT);
     }
 
-    void setstate(int* statelist) {
+    void set_onoff_list(const int* statelist) {
         this->statelist = statelist;
         index  = 0;
         blink_time = millis();
         apply_led();
+    }
+
+    void set_state(int value) {
+        if (value) {
+            set_onoff_list(_on_state);
+        } else {
+            set_onoff_list(_off_state);
+        }
     }
 
     void handle() {
@@ -31,7 +43,7 @@ public:
 
 private:
     int pin;
-    int * statelist;
+    const int * statelist;
     int index;
     unsigned long blink_time;
 
@@ -54,6 +66,9 @@ private:
             index = 0;
         }
     }
+
+
+
 };
 
 
