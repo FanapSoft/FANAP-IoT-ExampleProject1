@@ -1,12 +1,23 @@
+#include <PubSubClient.h>
 #include "src/parkingslot.h"
 
 ParkingSlot dut;
+
+
+bool test(void*data, const char*topic, const char *payload) {
+    Serial.printf("TEST PUBLISH!");
+}
+
+
+
 
 void setup() {
     Serial.begin(115200);
     Serial.println("Hello from ParkingSlot Test");
 
-    dut.init("DEVICEID", "ENC_KEY", 2, A0, 600, 1000);
+    dut.init("DEVICEID", "ENC_KEY", false, 2, A0, 600, 1000);
+
+    dut.set_mqtt_publish_access(test, (void*)1231);
 }
 
 
@@ -47,6 +58,6 @@ void loop() {
         dut.set_led(ParkingSlot::OFF);
     }
 
-    Serial.println(dut.get_sensor_last_value());
+    //Serial.println(dut.get_sensor_last_value());
 
 }
