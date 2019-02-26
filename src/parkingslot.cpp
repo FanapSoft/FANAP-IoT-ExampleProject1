@@ -49,4 +49,18 @@ void ParkingSlot::set_led(LedState state)
 void ParkingSlot::handle() {
     blinker.handle();
     sensor.handle();
+
+    // This is test code:
+    int change = sensor.get_change_state();
+
+    if (change>0) {
+        pub_func(mqtt_client_data,"D2P_topic", "{\"state\"=\"HI\"}");
+
+    } else if (change<0) {
+        pub_func(mqtt_client_data,"D2P_topic", "{\"state\"=\"LOW\"}");
+    }
+}
+
+void ParkingSlot::from_platform_topic(char * buffer) {
+    sprintf(buffer, "%s/p2d",device_id);
 }

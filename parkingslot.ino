@@ -5,7 +5,7 @@ ParkingSlot dut;
 
 
 bool test(void*data, const char*topic, const char *payload) {
-    Serial.printf("TEST PUBLISH!");
+    Serial.printf("Publish: topic=%s payload=%s\n",topic, payload);
 }
 
 
@@ -18,6 +18,9 @@ void setup() {
     dut.init("DEVICEID", "ENC_KEY", false, 2, A0, 600, 1000);
 
     dut.set_mqtt_publish_access(test, (void*)1231);
+    char buffer[50];
+    dut.from_platform_topic(buffer);
+    Serial.println(buffer);
 }
 
 

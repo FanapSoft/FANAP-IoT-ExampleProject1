@@ -25,6 +25,8 @@ class ParkingSlot
 
     void set_mqtt_publish_access(mqtt_client_pub_t pub_func, void * client_data);
 
+    void from_platform_topic(char * buffer);
+
     void set_led(LedState state);
 
     void handle();
