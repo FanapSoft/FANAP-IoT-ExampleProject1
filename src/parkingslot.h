@@ -2,6 +2,7 @@
 #define _PARKING_SLOT_H_
 
 #include "ledblinker.h"
+#include "sensorcontroller.h"
 
 class ParkingSlot
 {
@@ -21,6 +22,14 @@ public:
 
     void handle();
 
+    int get_sensor_state() {
+        return sensor.get_current_state();
+    }
+
+    int get_sensor_last_value() {
+        return sensor.last_sensor_value;
+    }
+
 private:
     char *device_id;
     char *enc_key;
@@ -28,6 +37,7 @@ private:
     int sensor_io;
 
     LedBlinker blinker;
+    SensorController sensor;
 };
 
 #endif

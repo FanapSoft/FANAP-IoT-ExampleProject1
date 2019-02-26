@@ -12,7 +12,7 @@ void ParkingSlot::init(char *device_id, char *enc_key, int led_pin, int sensor_i
 {
     this->device_id = device_id;
     this->enc_key = enc_key;
-
+    sensor.init(sensor_io, sensor_low_thershold, sensor_high_threshold);
     blinker.init(led_pin);
     set_led(OFF);
 }
@@ -41,4 +41,5 @@ void ParkingSlot::set_led(LedState state)
 
 void ParkingSlot::handle() {
     blinker.handle();
+    sensor.handle();
 }
