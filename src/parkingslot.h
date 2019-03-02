@@ -27,6 +27,8 @@ class ParkingSlot
 
     void from_platform_topic(char * buffer);
 
+    bool process_received_message(char * topic, char * payload, int msg_size);
+
     void set_led(LedState state);
 
     void handle();
