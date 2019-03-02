@@ -4,6 +4,7 @@
 #define NUMBER_OF_PARKINGSLOT 4
 
 #include "parkingslot.h"
+#include <PubSubClient.h>
 
 class ParkingController
 {
@@ -13,7 +14,7 @@ class ParkingController
 
     static const int NumSlots = NUMBER_OF_PARKINGSLOT;
 
-    void initialize(
+    void init_slots(
         char *device_id_list[],
         char *enc_key_list[],
         bool *enc_en_list,
@@ -23,6 +24,10 @@ class ParkingController
         int *sensor_high_threshold_list);
 
     void loop_handle();
+
+
+    void mqtt_callback(char* topic, uint8_t * payload, unsigned int size);
+
 };
 
 #endif

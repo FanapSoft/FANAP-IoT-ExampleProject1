@@ -1,6 +1,9 @@
 #include "parkingcontroller.h"
+#include <string.h>
 
-void ParkingController::initialize(
+
+
+void ParkingController::init_slots(
     char *device_id_list[],
     char *enc_key_list[],
     bool *enc_en_list,
@@ -29,4 +32,20 @@ void ParkingController::loop_handle() {
         slots[i].handle();
     }
     
+}
+
+
+void ParkingController::mqtt_callback(char* topic, uint8_t * payload, unsigned int size){
+
+    char buffer[201];
+    
+    int cpy_size = size;
+
+    if (cpy_size>200) {
+        cpy_size=200;
+    }
+
+    strncpy(buffer, (const char *)payload,cpy_size);
+
+    Serial.printf("Topic:%s msg:%s len:%d\n",topic, buffer, size);
 }
