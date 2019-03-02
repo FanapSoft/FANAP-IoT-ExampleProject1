@@ -25,9 +25,11 @@ class ParkingController
 
     void loop_handle();
 
-
     void mqtt_callback(char* topic, uint8_t * payload, unsigned int size);
 
+    void mqtt_subscribe(bool(*subscribe)(const char*));
+
+    void mqtt_publish(bool(*publish)(const char* topic, const char* msg));
 };
 
 #endif

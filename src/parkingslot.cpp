@@ -19,8 +19,7 @@ void ParkingSlot::init(char *device_id, char *enc_key, bool enc_en, int led_pin,
 }
 
 
-void ParkingSlot::set_mqtt_publish_access(mqtt_client_pub_t pub_func, void * client_data) {
-    this->mqtt_client_data = client_data;
+void ParkingSlot::set_mqtt_publish_access(mqtt_client_pub_t pub_func) {
     this->pub_func = pub_func;
 }
 
@@ -54,10 +53,12 @@ void ParkingSlot::handle() {
     int change = sensor.get_change_state();
 
     if (change>0) {
-        pub_func(mqtt_client_data,"D2P_topic", "{\"state\"=\"HI\"}");
+        pub_func("D2P_topic_HI", (const char *) device_id);
+        //pub_func("D2P_topic", "{\"state\"=\"HI\"}");
 
     } else if (change<0) {
-        pub_func(mqtt_client_data,"D2P_topic", "{\"state\"=\"LOW\"}");
+        pub_func("D2P_topic_LOW", (const char *) device_id);
+        //pub_func("D2P_topic", "{\"state\"=\"HI\"}");
     }
 }
 

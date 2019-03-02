@@ -5,8 +5,6 @@
 
 #include "src/parkingcontroller.h"
 
-
-
 ParkingController pc;
 WiFiClient espClient;
 PubSubClient client(espClient);
@@ -25,16 +23,16 @@ const char *password = CONFIG_WIFI_PASS;
 const int mqttPort = CONFIG_MQTT_PORT;
 const char *mqttServer = CONFIG_MQTT_ADDR;
 
-
-
 void callback(char* topic, uint8_t * payload, unsigned int size) {
     pc.mqtt_callback(topic, payload, size);
 }
 
+bool subscribe(const char*topic) {
+    return client.subscribe(topic);
+}
 
-bool test(void *data, const char *topic, const char *payload)
-{
-    Serial.printf("Publish: topic=%s payload=%s\n", topic, payload);
+bool publish(const char*topic, const char*payload) {
+    return client.publish(topic, payload);
 }
 
 void setup()
@@ -72,11 +70,10 @@ void setup()
         }
     }
 
-    client.subscribe("test/#");
+    
 
     Serial.println("Connected!");
     Serial.println(WiFi.localIP());
-
 
     pc.init_slots(
         device_id_list,
@@ -87,51 +84,12 @@ void setup()
         sensor_low_threshold_list,
         sensor_high_threshold_list);
 
-
-    // dut.set_mqtt_publish_access(test, (void*)1231);
-    // char buffer[50];
-    // dut.from_platform_topic(buffer);
-    // Serial.println(buffer);
+    pc.mqtt_subscribe(subscribe);
+    pc.mqtt_publish(publish);
 }
 
 void loop()
 {
     client.loop();
     pc.loop_handle();
-
-    // while( Serial.available()>0) {
-    //     char m = Serial.read();
-    //     switch (m)
-    //     {
-    //         case '1':
-    //             dut.set_led(ParkingSlot::ON);
-    //             Serial.println("ON");
-    //             break;
-    //         case '2':
-    //             dut.set_led(ParkingSlot::OFF);
-    //             Serial.println("OFF");
-    //             break;
-    //         case '3':
-    //             dut.set_led(ParkingSlot::BLINK1);
-    //             Serial.println("BLINK1");
-    //             break;
-    //         case '4':
-    //             dut.set_led(ParkingSlot::BLINK2);
-    //             Serial.println("BLINK2");
-    //             break;
-    //         default:
-    //             Serial.println("INVALID");
-    //             Serial.println(m);
-    //             break;
-    //     }
-    // }
-    // dut.handle();
-
-    // if (dut.get_sensor_state()) {
-    //     dut.set_led(ParkingSlot::ON);
-    // } else {
-    //     dut.set_led(ParkingSlot::OFF);
-    // }
-
-    //Serial.println(dut.get_sensor_last_value());
 }

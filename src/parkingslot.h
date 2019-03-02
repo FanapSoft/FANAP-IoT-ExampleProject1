@@ -6,7 +6,7 @@
 #include "fanenc.h"
 
 
-typedef bool (*mqtt_client_pub_t)(void*, const char *, const char *);
+typedef bool (*mqtt_client_pub_t)(const char *, const char *);
 
 
 class ParkingSlot
@@ -23,7 +23,7 @@ class ParkingSlot
     void init(char *device_id,  char *enc_key, bool enc_en, int led_pin, int sensor_io,
               int sensor_low_thershold, int sensor_high_threshold);
 
-    void set_mqtt_publish_access(mqtt_client_pub_t pub_func, void * client_data);
+    void set_mqtt_publish_access(mqtt_client_pub_t pub_func);
 
     void from_platform_topic(char * buffer);
 
@@ -49,7 +49,6 @@ class ParkingSlot
     int led_pin;
     int sensor_io;
 
-    void * mqtt_client_data;
     mqtt_client_pub_t pub_func;
 
     LedBlinker blinker;

@@ -1,7 +1,7 @@
 #include "parkingcontroller.h"
 #include <string.h>
 
-
+#define MAX_TOPIC_SIZE 100
 
 void ParkingController::init_slots(
     char *device_id_list[],
@@ -49,3 +49,23 @@ void ParkingController::mqtt_callback(char* topic, uint8_t * payload, unsigned i
 
     Serial.printf("Topic:%s msg:%s len:%d\n",topic, buffer, size);
 }
+
+
+void ParkingController::mqtt_subscribe(bool(*subscribe)(const char*)) {
+    char topic_name[MAX_TOPIC_SIZE];
+    for(int i=0; i<NumSlots; i++) {
+        slots[i].from_platform_topic(topic_name);
+        bool res = subscribe(topic_name);
+        if (!res) {
+            Serial.printf("Failed to subscribe to \"%s\"\n", topic_name);
+        }
+    }
+}
+
+
+void ParkingController::mqtt_publish(bool(*publish)(const char* topic, const char* msg)) {
+    for(int i=0; i<NumSlots; i++) {
+        slots[i].set_mqtt_publish_access(publish);
+    }
+}
+
