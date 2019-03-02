@@ -16,6 +16,9 @@ void ParkingSlot::init(char *device_id, char *enc_key, bool enc_en, int led_pin,
     blinker.init(led_pin);
     set_led(OFF);
     enc.set_key((const unsigned char*)enc_key);
+
+
+    snprintf(platform_topic,sizeof(platform_topic),"%s/p2d",device_id);
 }
 
 
@@ -62,6 +65,6 @@ void ParkingSlot::handle() {
     }
 }
 
-void ParkingSlot::from_platform_topic(char * buffer) {
-    sprintf(buffer, "%s/p2d",device_id);
+const char * ParkingSlot::from_platform_topic() {
+    return platform_topic;
 }

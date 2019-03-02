@@ -5,6 +5,7 @@
 #include "sensorcontroller.h"
 #include "fanenc.h"
 
+#define MAX_TOPIC_LEN 80
 
 typedef bool (*mqtt_client_pub_t)(const char *, const char *);
 
@@ -25,7 +26,7 @@ class ParkingSlot
 
     void set_mqtt_publish_access(mqtt_client_pub_t pub_func);
 
-    void from_platform_topic(char * buffer);
+    const char * from_platform_topic();
 
     bool process_received_message(char * topic, char * payload, int msg_size);
 
@@ -48,6 +49,7 @@ class ParkingSlot
     bool enc_en;
     int led_pin;
     int sensor_io;
+    char platform_topic[MAX_TOPIC_LEN];
 
     mqtt_client_pub_t pub_func;
 
