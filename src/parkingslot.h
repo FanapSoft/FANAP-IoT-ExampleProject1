@@ -4,6 +4,7 @@
 #include "ledblinker.h"
 #include "sensorcontroller.h"
 #include "fanenc.h"
+#include <ArduinoJson.h>
 
 #define MAX_TOPIC_LEN 80
 
@@ -30,8 +31,6 @@ class ParkingSlot
 
     bool process_received_message(char * topic, char * payload, int msg_size);
 
-    void set_led(LedState state);
-
     void handle();
 
     int get_sensor_state()
@@ -46,16 +45,19 @@ class ParkingSlot
 
   private:
     char *device_id;
-    bool enc_en;
     int led_pin;
     int sensor_io;
     char platform_topic[MAX_TOPIC_LEN];
-
+    bool report_update;
     mqtt_client_pub_t pub_func;
 
     LedBlinker blinker;
     SensorController sensor;
     FanEnc enc;
+
+    void set_led(LedState state);
+    void apply_key_value_cmd(JsonPair cmd);
+    void cmd_led(const char * cmd);
 };
 
 #endif

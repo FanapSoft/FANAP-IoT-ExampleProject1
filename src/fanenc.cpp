@@ -1,9 +1,14 @@
 #include "fanenc.h"
 
 #include <stdlib.h>
-
+#include <string.h>
 
 int FanEnc::dec(char * msg, int msg_size, char * buffer) {
+
+  if (!enc_en) {
+    memcpy(buffer, msg, msg_size);
+    return msg_size;
+  }
 
   unsigned char * temp_buff;
 
@@ -32,6 +37,12 @@ int FanEnc::dec(char * msg, int msg_size, char * buffer) {
 
 // Encrypt message for sending to the Fan-IOT platform
 int FanEnc::enc(char * msg, int msg_size, char * buffer) {
+
+  if (!enc_en) {
+    memcpy(buffer, msg, msg_size);
+    return msg_size;
+  }
+
   unsigned char * temp_buff;
 
   temp_buff = (unsigned char * )malloc(msg_size+DES_KEY_SIZE);

@@ -36,18 +36,10 @@ void ParkingController::loop_handle() {
 
 
 void ParkingController::mqtt_callback(char* topic, uint8_t * payload, unsigned int size){
-
-    char buffer[201];
-    
-    int cpy_size = size;
-
-    if (cpy_size>200) {
-        cpy_size=200;
+    for(int i = 0; i < NumSlots; i++) 
+    {
+        slots[i].process_received_message(topic, (char *)payload, size);
     }
-
-    strncpy(buffer, (const char *)payload,cpy_size);
-
-    Serial.printf("Topic:%s msg:%s len:%d\n",topic, buffer, size);
 }
 
 

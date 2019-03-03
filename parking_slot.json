@@ -1,0 +1,19 @@
+{
+    "device_id": "",
+    
+    "enc_key": "",
+  
+    "enc_enable": true,
+  
+    "description":"Parking Slot Device",
+  
+    "attributeTypes": [
+      {"name":"led", "type":["R","G","B1", "B2"]},
+      {"name":"led_last_update", "type":"Number"},
+      {"name":"sensor_state", "type":"Number"},
+      {"name":"sensor_threshold", "type":"Number"},
+      {"name":"sensor_last_update", "type":"Number"},
+      {"name":"sensor_value", "type":"Number"},
+      {"name":"report_rate", "type":"Number"}
+    ]
+} 

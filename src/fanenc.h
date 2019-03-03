@@ -8,10 +8,12 @@ class FanEnc
 {
 private:
     DES des_enc;
+    bool enc_en;
 
 public:
-    void set_key(const unsigned char*main_key) {
+    void set_key(const unsigned char*main_key, bool enc_en=true) {
         des_enc.set_key(main_key);
+        this->enc_en = enc_en;
     }
 
     // Encrypt message for sending to the Fan-IOT platform

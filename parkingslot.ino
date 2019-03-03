@@ -1,5 +1,4 @@
 #include "config.h"
-#include <ArduinoJson.h>
 #include <WiFi.h>
 #include <PubSubClient.h>
 
@@ -11,7 +10,7 @@ PubSubClient client(espClient);
 
 char *device_id_list[] = {"ID-01", "ID-02", "ID-03", "ID-04"};
 char *enc_key_list[] = {"KEY1", "KEY2", "KEY3", "KEY4"};
-bool enc_en_list[] = {true, false, false, true};
+bool enc_en_list[] = {false, false, false, true};
 int led_pin_list[] = {2, 3, 4, 5};
 int sensor_io_list[] = {A0, A3, A6, A7};
 int sensor_low_threshold_list[] = {700, 700, 700, 700};
