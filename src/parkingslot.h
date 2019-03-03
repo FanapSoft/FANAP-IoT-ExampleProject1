@@ -46,10 +46,12 @@ class ParkingSlot
   private:
     char *device_id;
     int led_pin;
+    LedState led_state;
     int sensor_io;
     char platform_topic[MAX_TOPIC_LEN];
     bool report_update;
     mqtt_client_pub_t pub_func;
+    int led_update_time; // ToDo: Replace it with actual time
 
     LedBlinker blinker;
     SensorController sensor;
@@ -58,6 +60,9 @@ class ParkingSlot
     void set_led(LedState state);
     void apply_key_value_cmd(JsonPair cmd);
     void cmd_led(const char * cmd);
+    bool send_current_state_to_platform();
+
+    const char * get_str_led_state();
 };
 
 #endif

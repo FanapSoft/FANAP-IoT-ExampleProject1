@@ -21,6 +21,7 @@ void ParkingSlot::init(char *device_id, char *enc_key, bool enc_en, int led_pin,
 
 
     snprintf(platform_topic,sizeof(platform_topic),"/%s/p2d",device_id);
+    led_update_time = millis();
 }
 
 
@@ -30,6 +31,7 @@ void ParkingSlot::set_mqtt_publish_access(mqtt_client_pub_t pub_func) {
 
 void ParkingSlot::set_led(LedState state)
 {
+    led_state = state;
     switch (state)
     {
         case ON:
@@ -111,24 +113,76 @@ bool ParkingSlot::process_received_message(char * topic, char * payload, int msg
 void ParkingSlot::apply_key_value_cmd(JsonPair cmd) {
     const char * key = cmd.key().c_str();
 
-    if (strcmp(key, "led")==0) {
+    if (!strcmp(key, "led")) {
         cmd_led(cmd.value());
     } 
 
-    Serial.printf("%s %s\n",device_id, key);
 }
 
 void ParkingSlot::cmd_led(const char * cmd) {
     if (cmd) {
-        report_update = true;
+        LedState state;
+        bool change = false;
         if (!strcmp(cmd, "G")) {
-            set_led(ON);
+            state = ON;
+            change = true;
         } else if (!strcmp(cmd,"R")) {
-            set_led(OFF);
+            state = OFF;
+            change = true;
         } else if (!strcmp(cmd,"B1")) {
-            set_led(BLINK1);
+            state = BLINK1;
+            change = true;
         } else if (!strcmp(cmd,"B2")) {
-            set_led(BLINK2);
+            state = BLINK2;
+            change = true;
+        }
+
+        if (change) {
+            set_led(state);
+            report_update = true;
+            led_update_time = millis();
+            send_current_state_to_platform();
         }
     } 
+}
+
+
+const char * ParkingSlot::get_str_led_state() {
+    switch (led_state)
+    {
+        case ON:
+            return "G";
+        case OFF:
+            return "R";
+        case BLINK1:
+            return "B1";
+        case BLINK2:
+            return "B2";
+        default:
+            break;
+    }
+    return "X";
+}
+
+
+bool ParkingSlot::send_current_state_to_platform() {
+    StaticJsonDocument<MAX_JSON_SIZE> doc;
+    char buffer[MAX_MESSAGE_SIZE];
+
+    JsonArray data_array = doc.createNestedArray("data");
+    
+    JsonObject data = data_array.createNestedObject();
+
+    data["led"] = get_str_led_state();
+
+
+    serializeJson(doc, buffer, sizeof(buffer));
+
+    // ToDo: Add packet encryption here!
+
+    char topic[MAX_TOPIC_LEN];
+    snprintf(topic,sizeof(topic),"/%s/d2p",device_id);
+
+
+    return pub_func(topic, buffer);
 }
