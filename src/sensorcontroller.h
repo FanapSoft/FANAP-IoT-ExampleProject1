@@ -71,6 +71,26 @@ class SensorController
         }
         return 0;
     }
+
+    void set_threshold_low(int value) {
+        threshold_low = value;
+    }
+
+    void set_threshold_high(int value) {
+        threshold_high = value;
+    }
+
+    int get_threshold_low() {
+        return threshold_low;
+    }
+
+    int get_threshold_high() {
+        return threshold_high;
+    }
+
+    int get_last_sensor_value() {
+        return last_sensor_value;
+    }
 };
 
 #endif

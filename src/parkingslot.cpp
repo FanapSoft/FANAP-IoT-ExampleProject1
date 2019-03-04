@@ -32,6 +32,8 @@ void ParkingSlot::init(char *device_id, char *enc_key, bool enc_en, int led_pin,
     // ToDo: Change default value of the report period rate
     report_job.init(REPORT_PERIOD_SEC, job_callback, (void*)this);
     report_job.register_execute();
+
+    sensor_changed_time = millis();
 }
 
 
@@ -65,19 +67,18 @@ void ParkingSlot::set_led(LedState state)
 void ParkingSlot::handle() {
     blinker.handle();
     sensor.handle();
+    
+
+
+    // Report state if sensor is changed:
+    int change = sensor.get_change_state();
+    if (change) {
+        report_job.register_execute();
+        sensor_changed_time = millis();
+    }
+
+    // Report handler should last handler
     report_job.handle();
-
-    // // This is test code:
-    // int change = sensor.get_change_state();
-
-    // if (change>0) {
-    //     pub_func("D2P_topic_HI", (const char *) device_id);
-    //     //pub_func("D2P_topic", "{\"state\"=\"HI\"}");
-
-    // } else if (change<0) {
-    //     pub_func("D2P_topic_LOW", (const char *) device_id);
-    //     //pub_func("D2P_topic", "{\"state\"=\"HI\"}");
-    // }
 }
 
 const char * ParkingSlot::from_platform_topic() {
@@ -134,6 +135,20 @@ void ParkingSlot::apply_key_value_cmd(JsonPair cmd) {
         }
 
         report_job.set_period(period);
+        report_job.register_execute();
+    } else if (!strcmp(key, "sensor_threshold_low")) {
+        int value = cmd.value();
+        if (value<1 || value>4000) {
+            value = sensor.get_threshold_low();
+        }
+        sensor.set_threshold_low(value);
+        report_job.register_execute();
+    } else if (!strcmp(key, "sensor_threshold_high")) {
+        int value = cmd.value();
+        if (value<100 || value>4000) {
+            value = sensor.get_threshold_high();
+        }
+        sensor.set_threshold_high(value);
         report_job.register_execute();
     }
 
@@ -193,9 +208,16 @@ bool ParkingSlot::send_current_state_to_platform() {
     JsonObject data = data_array.createNestedObject();
 
     data["led"] = get_str_led_state();
-    data["led_last_update"] = led_update_time;
+    data["led_last_update"] = led_update_time/1000;
+    data["sensor_state"] = sensor.get_current_state();
     data["report_period"] = report_job.get_period();
+    data["sensor_last_update"] = sensor_changed_time/1000;
+    data["sensor_threshold_low"] = sensor.get_threshold_low();
+    data["sensor_threshold_high"] = sensor.get_threshold_high();
+    data["sensor_value"] = sensor.get_last_sensor_value();
+
     doc["TimeStamp"] = millis()/1000; // ToDo: Replace timestamp with real-time
+
     serializeJson(doc, buffer, sizeof(buffer));
 
     // ToDo: Add packet encryption here!

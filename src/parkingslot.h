@@ -53,6 +53,7 @@ private:
     char platform_topic[MAX_TOPIC_LEN];
     mqtt_client_pub_t pub_func;
     int led_update_time; // ToDo: Replace it with actual time
+    int sensor_changed_time; // ToDo: Replace it with actual time
     LedBlinker blinker;
     SensorController sensor;
     FanEnc enc;
