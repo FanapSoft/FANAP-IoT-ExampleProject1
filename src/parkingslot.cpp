@@ -218,15 +218,18 @@ bool ParkingSlot::send_current_state_to_platform() {
 
     doc["TimeStamp"] = millis()/1000; // ToDo: Replace timestamp with real-time
 
-    serializeJson(doc, buffer, sizeof(buffer));
+    int json_size = serializeJson(doc, buffer, sizeof(buffer));
 
-    // ToDo: Add packet encryption here!
+    char msg[MAX_MESSAGE_SIZE];
+    int msg_size = enc.enc(buffer, json_size, msg);
+    msg[msg_size]=0; // Create a valid null terminated string
+
 
     char topic[MAX_TOPIC_LEN];
     snprintf(topic,sizeof(topic),"/%s/d2p",device_id);
 
 
-    return pub_func(topic, buffer);
+    return pub_func(topic, msg);
 }
 
 
