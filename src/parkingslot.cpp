@@ -126,7 +126,16 @@ void ParkingSlot::apply_key_value_cmd(JsonPair cmd) {
 
     if (!strcmp(key, "led")) {
         cmd_led(cmd.value());
-    } 
+    } else if (!strcmp(key, "report_period")) {
+        unsigned int period = cmd.value();
+        if (period>(12*3600)) {
+            // Don't allow update period bigger than 12h
+            period = report_job.get_period();
+        }
+
+        report_job.set_period(period);
+        report_job.register_execute();
+    }
 
 }
 
@@ -185,7 +194,8 @@ bool ParkingSlot::send_current_state_to_platform() {
 
     data["led"] = get_str_led_state();
     data["led_last_update"] = led_update_time;
-
+    data["report_period"] = report_job.get_period();
+    doc["TimeStamp"] = millis()/1000; // ToDo: Replace timestamp with real-time
     serializeJson(doc, buffer, sizeof(buffer));
 
     // ToDo: Add packet encryption here!

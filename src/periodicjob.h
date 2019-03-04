@@ -36,7 +36,13 @@ public:
         }
     }
 
-    unsigned int period_sec;
+    unsigned int get_period() {
+        return period_sec;
+    }
+
+    void set_period(unsigned int period_sec) {
+        this->period_sec = period_sec;
+    }
     
 private:
     void (*func)(void*);
@@ -44,6 +50,8 @@ private:
 
     unsigned int last_execute;
     bool force_execute;
+    unsigned int period_sec;
+
 };
 
 

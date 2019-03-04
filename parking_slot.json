@@ -11,9 +11,10 @@
       {"name":"led", "type":["R","G","B1", "B2"]},
       {"name":"led_last_update", "type":"Number"},
       {"name":"sensor_state", "type":"Number"},
-      {"name":"sensor_threshold", "type":"Number"},
+      {"name":"sensor_threshold_low", "type":"Number"},
+      {"name":"sensor_threshold_high", "type":"Number"},
       {"name":"sensor_last_update", "type":"Number"},
       {"name":"sensor_value", "type":"Number"},
-      {"name":"report_rate", "type":"Number"}
+      {"name":"report_period", "type":"Number"}
     ]
 } 
