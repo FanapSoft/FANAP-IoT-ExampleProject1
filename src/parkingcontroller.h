@@ -1,7 +1,7 @@
 #ifndef _PARKING_CONTROLLER_H
 #define _PARKING_CONTROLLER_H
 
-#define NUMBER_OF_PARKINGSLOT 4
+#define NUMBER_OF_PARKINGSLOT 5
 
 #include "parkingslot.h"
 #include <PubSubClient.h>

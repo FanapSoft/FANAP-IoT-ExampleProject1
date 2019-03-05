@@ -7,7 +7,7 @@
 #define MAX_MESSAGE_SIZE 1024
 #define MAX_JSON_SIZE 512
 
-#define REPORT_PERIOD_SEC 20
+#define REPORT_PERIOD_SEC 5
 
 static const int _blink1_list[] = {BLINK_PERIOD_ON,-(BLINK_PERIOD_OFF),0};
 static const int _blink2_list[] = {BLINK_PERIOD_OFF, -(BLINK_PERIOD_ON) ,0};

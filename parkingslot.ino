@@ -8,11 +8,11 @@ ParkingController pc;
 WiFiClient espClient;
 PubSubClient client(espClient);
 
-char *device_id_list[] = {"DIe922bad2050e45cb", "ID-02", "ID-03", "ID-04"};
-char *enc_key_list[] = {"1c0eeb2bfeb1", "KEY2", "KEY3", "KEY4"};
-bool enc_en_list[] = {false, false, false, true};
-int led_pin_list[] = {2, 3, 4, 5};
-int sensor_io_list[] = {A0, A3, A6, A7};
+char *device_id_list[] = {"ID-01", "ID-02", "ID-03", "ID-04", "ID-05"};
+char *enc_key_list[] = {"KEY1", "KEY2", "KEY3", "KEY4", "KEY5"};
+bool enc_en_list[] = {false, false, false, false, false};
+int led_pin_list[] = {23, 22, 21, 19, 18};
+int sensor_io_list[] = {A0, A3, A6, A7, A4};
 int sensor_low_threshold_list[] = {700, 700, 700, 700};
 int sensor_high_threshold_list[] = {1000, 1000, 1000, 1000};
 
