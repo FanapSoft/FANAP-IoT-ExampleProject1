@@ -6,6 +6,7 @@
 #include "fanenc.h"
 #include "periodicjob.h"
 #include <ArduinoJson.h>
+#include "fanaccess.h"
 
 #define MAX_TOPIC_LEN 80
 
@@ -28,8 +29,6 @@ public:
 
     void set_mqtt_publish_access(mqtt_client_pub_t pub_func);
 
-    const char * from_platform_topic();
-
     bool process_received_message(char * topic, char * payload, int msg_size);
 
     void handle();
@@ -45,22 +44,21 @@ public:
     }
     void create_send_report();
 
+    void apply_key_value_cmd(JsonPair cmd);
+
+    FanAccess device;
+
 private:
-    char *device_id;
     int led_pin;
     LedState led_state;
     int sensor_io;
-    char platform_topic[MAX_TOPIC_LEN];
-    mqtt_client_pub_t pub_func;
     int led_update_time; // ToDo: Replace it with actual time
     int sensor_changed_time; // ToDo: Replace it with actual time
     LedBlinker blinker;
     SensorController sensor;
-    FanEnc enc;
     PeriodicJob report_job;
 
     void set_led(LedState state);
-    void apply_key_value_cmd(JsonPair cmd);
     void cmd_led(const char * cmd);
     bool send_current_state_to_platform();
     const char * get_str_led_state();

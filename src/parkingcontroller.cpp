@@ -45,9 +45,9 @@ void ParkingController::mqtt_callback(char* topic, uint8_t * payload, unsigned i
 
 void ParkingController::mqtt_subscribe(bool(*subscribe)(const char*)) {
     for(int i=0; i<NumSlots; i++) {
-        bool res = subscribe(slots[i].from_platform_topic());
+        bool res = subscribe(slots[i].device.from_platform_topic());
         if (!res) {
-            Serial.printf("Failed to subscribe to \"%s\"\n", slots[i].from_platform_topic());
+            Serial.printf("Failed to subscribe to \"%s\"\n", slots[i].device.from_platform_topic());
         }
     }
 }
