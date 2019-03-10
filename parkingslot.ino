@@ -16,6 +16,20 @@ int sensor_io_list[] = {A0, A3, A6, A7, A4};
 int sensor_low_threshold_list[] = {700, 700, 700, 700, 700};
 int sensor_high_threshold_list[] = {1000, 1000, 1000, 1000, 1000};
 
+
+char * gate_device_id = "GATE-ID";
+char * gate_enc_key = "GATE-KEY";
+const bool gate_enc_en = false;
+const int gate_led_pin = 5;
+const int entry_sensor_io = A5;
+const int exist_sensor_io = A18;
+const int servo_io = 15;
+const int gate_sensor_low = 700;
+const int gate_sensor_high = 1000;
+const int gate_low = 0;
+const int gate_high = 90;
+
+
 const char *ssid = CONFIG_WIFI_SSID;
 const char *password = CONFIG_WIFI_PASS;
 
@@ -88,6 +102,21 @@ void setup()
         sensor_io_list,
         sensor_low_threshold_list,
         sensor_high_threshold_list);
+
+    pc.init_gate(
+        gate_device_id,
+        gate_enc_key,
+        gate_enc_en,
+        gate_led_pin,
+        entry_sensor_io,
+        exist_sensor_io,
+        servo_io,
+        gate_sensor_low,
+        gate_sensor_high,
+        gate_low,
+        gate_high
+    );
+
 
     pc.mqtt_subscribe(subscribe);
     pc.mqtt_publish(publish);

@@ -83,6 +83,7 @@ void ParkingGate::closegate() {
 
 void ParkingGate::apply_key_value_cmd(JsonPair cmd) {
     // ToDo:
+    Serial.printf("Gate: %s\n", cmd.key().c_str());
 }
 
 void ParkingGate::send_periodic_report() {
@@ -112,4 +113,8 @@ void ParkingGate::handle() {
     // Report handler should last handler
     closegate_job.handle();
     report_job.handle();
+}
+
+bool ParkingGate::process_received_message(char * topic, char * payload, int msg_size) { 
+    return device.process_received_message(topic, payload, msg_size);
 }

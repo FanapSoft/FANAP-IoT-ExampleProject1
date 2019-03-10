@@ -38,6 +38,8 @@ class ParkingGate
 
     void handle();
 
+    bool process_received_message(char * topic, char * payload, int msg_size);
+
   private:
     GateController gate;
     LedBlinker blinker;
