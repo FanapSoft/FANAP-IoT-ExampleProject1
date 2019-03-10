@@ -7,8 +7,6 @@
     "attributeTypes": [
       {"name":"led", "type":["R","G","B1", "B2"]},
       {"name":"led_last_update", "type":"Number"},
-
-
       {"name":"entry_sensor_state", "type":"Number"},
       {"name":"exit_sensor_state", "type":"Number"},
       {"name":"entry_sensor_value", "type":"Number"},

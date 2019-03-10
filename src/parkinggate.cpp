@@ -45,6 +45,8 @@ void ParkingGate::init(char *device_id, char *enc_key, bool enc_en,
 
     closegate_job.init(closegate_callback, (void*)this);
 
+    gate.init(servo_io, gate_low, gate_high);
+    gate.close();
 }
 
 
@@ -83,7 +85,36 @@ void ParkingGate::closegate() {
 
 void ParkingGate::apply_key_value_cmd(JsonPair cmd) {
     // ToDo:
-    Serial.printf("Gate: %s\n", cmd.key().c_str());
+    auto key = cmd.key();
+
+    //   {"name":"led_last_update", "type":"Number"},
+    //   {"name":"entry_sensor_state", "type":"Number"},
+    //   {"name":"exit_sensor_state", "type":"Number"},
+    //   {"name":"entry_sensor_value", "type":"Number"},
+    //   {"name":"exit_sensor_value", "type":"Number"},
+    //   {"name":"entry_sensor_last_update", "type":"Number"},
+    //   {"name":"exist_sensor_last_update", "type":"Number"},
+    //   {"name":"sensor_threshold_low", "type":"Number"},
+    //   {"name":"sensor_threshold_high", "type":"Number"},
+    //   {"name":"gate", "type":["OPEN","CLOSE","OPEN-CLOSE"]},
+    //   {"name":"gate_open_time", "type":"Number"},
+    //   {"name":"gate_low", "type":"Number"},
+    //   {"name":"gate_high", "type":"Number"},
+    //   {"name":"gate_last_update", "type":"Number"},
+    //   {"name":"report_period", "type":"Number"}
+
+
+
+
+
+
+
+
+    if (key == "led") {
+        cmd_led(cmd.value());
+    } else if (key == "gate") {
+        cmd_gate(cmd.value());
+    }
 }
 
 void ParkingGate::send_periodic_report() {
@@ -118,3 +149,48 @@ void ParkingGate::handle() {
 bool ParkingGate::process_received_message(char * topic, char * payload, int msg_size) { 
     return device.process_received_message(topic, payload, msg_size);
 }
+
+void ParkingGate::cmd_led(const char * cmd) {
+    if (cmd) {
+        LedState state;
+        bool change = false;
+        if (!strcmp(cmd, "G")) {
+            state = ON;
+            change = true;
+        } else if (!strcmp(cmd,"R")) {
+            state = OFF;
+            change = true;
+        } else if (!strcmp(cmd,"B1")) {
+            state = BLINK1;
+            change = true;
+        } else if (!strcmp(cmd,"B2")) {
+            state = BLINK2;
+            change = true;
+        }
+
+        if (change) {
+            set_led(state);
+            report_job.register_execute();
+            led_update_time = millis();
+        }
+    } 
+}
+
+void ParkingGate::cmd_gate(const char * cmd) {
+    if (cmd) {
+        if (!strcmp(cmd, "OPEN")) {
+            gate.open();
+        } else if (!strcmp(cmd,"CLOSE")) {
+            gate.close();
+        } else if (!strcmp(cmd,"OPEN-CLOSE")) {
+            Serial.println("Gate: OPEN-CLOSE is not supported yet!");
+        } 
+
+        // ToDo: Support report for gate!
+        // if (change) {
+        //     set_led(state);
+        //     report_job.register_execute();
+        //     led_update_time = millis();
+        // }
+    } 
+} 

@@ -40,6 +40,7 @@ class ParkingGate
 
     bool process_received_message(char * topic, char * payload, int msg_size);
 
+
   private:
     GateController gate;
     LedBlinker blinker;
@@ -53,6 +54,9 @@ class ParkingGate
     int entry_sensor_changed_time; // ToDo: Replace it with actual time
     int exit_sensor_changed_time; // ToDo: Replace it with actual time
     LedState led_state;
+
+    void cmd_led(const char * cmd);
+    void cmd_gate(const char * cmd);
 
 };
 
