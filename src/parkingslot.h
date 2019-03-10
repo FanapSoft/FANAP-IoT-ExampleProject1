@@ -3,12 +3,9 @@
 
 #include "ledblinker.h"
 #include "sensorcontroller.h"
-#include "fanenc.h"
 #include "periodicjob.h"
 #include <ArduinoJson.h>
 #include "fanaccess.h"
-
-#define MAX_TOPIC_LEN 80
 
 typedef bool (*mqtt_client_pub_t)(const char *, const char *);
 
@@ -49,9 +46,7 @@ public:
     FanAccess device;
 
 private:
-    int led_pin;
     LedState led_state;
-    int sensor_io;
     int led_update_time; // ToDo: Replace it with actual time
     int sensor_changed_time; // ToDo: Replace it with actual time
     LedBlinker blinker;

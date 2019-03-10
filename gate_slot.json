@@ -1,0 +1,27 @@
+{
+    "device_id": "",
+    "enc_key": "",
+    "enc_enable": true,
+    "description":"Parking Slot Device",
+  
+    "attributeTypes": [
+      {"name":"led", "type":["R","G","B1", "B2"]},
+      {"name":"led_last_update", "type":"Number"},
+
+
+      {"name":"entry_sensor_state", "type":"Number"},
+      {"name":"exit_sensor_state", "type":"Number"},
+      {"name":"entry_sensor_value", "type":"Number"},
+      {"name":"exit_sensor_value", "type":"Number"},
+      {"name":"entry_sensor_last_update", "type":"Number"},
+      {"name":"exist_sensor_last_update", "type":"Number"},
+      {"name":"sensor_threshold_low", "type":"Number"},
+      {"name":"sensor_threshold_high", "type":"Number"},
+      {"name":"gate", "type":["OPEN","CLOSE","OPEN-CLOSE"]},
+      {"name":"gate_open_time", "type":"Number"},
+      {"name":"gate_low", "type":"Number"},
+      {"name":"gate_high", "type":"Number"},
+      {"name":"gate_last_update", "type":"Number"},
+      {"name":"report_period", "type":"Number"}
+    ]
+} 
