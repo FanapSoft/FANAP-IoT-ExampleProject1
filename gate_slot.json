@@ -12,7 +12,7 @@
       {"name":"entry_sensor_value", "type":"Number"},
       {"name":"exit_sensor_value", "type":"Number"},
       {"name":"entry_sensor_last_update", "type":"Number"},
-      {"name":"exist_sensor_last_update", "type":"Number"},
+      {"name":"exit_sensor_last_update", "type":"Number"},
       {"name":"sensor_threshold_low", "type":"Number"},
       {"name":"sensor_threshold_high", "type":"Number"},
       {"name":"gate", "type":["OPEN","CLOSE","OPEN-CLOSE"]},

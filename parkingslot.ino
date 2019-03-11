@@ -26,8 +26,8 @@ const int exist_sensor_io = A18;
 const int servo_io = 15;
 const int gate_sensor_low = 700;
 const int gate_sensor_high = 1000;
-const int gate_low = 0;
-const int gate_high = 90;
+const int gate_low = 5;
+const int gate_high = 95;
 
 
 const char *ssid = CONFIG_WIFI_SSID;

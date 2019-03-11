@@ -107,7 +107,7 @@ void ParkingSlot::apply_key_value_cmd(JsonPair cmd) {
         report_job.register_execute();
     } else if (!strcmp(key, "sensor_threshold_high")) {
         int value = cmd.value();
-        if (value<100 || value>4000) {
+        if (value<80 || value>4000) {
             value = sensor.get_threshold_high();
         }
         sensor.set_threshold_high(value);

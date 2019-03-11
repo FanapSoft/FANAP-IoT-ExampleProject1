@@ -34,7 +34,7 @@ class ParkingGate
 
     void closegate();
 
-    void send_periodic_report();
+    bool send_periodic_report();
 
     void handle();
 
@@ -50,13 +50,18 @@ class ParkingGate
     DelayedJob closegate_job;
     void set_led(LedState state);
     int led_update_time; // ToDo: Replace it with actual time
+    int gate_update_time; // ToDo: Replace it with actual time
 
     int entry_sensor_changed_time; // ToDo: Replace it with actual time
     int exit_sensor_changed_time; // ToDo: Replace it with actual time
     LedState led_state;
+    bool send_full_report;
+    int gate_open_time;
 
     void cmd_led(const char * cmd);
     void cmd_gate(const char * cmd);
+    const char * get_str_led_state();
+    const char * get_str_gate_state();
 
 };
 
