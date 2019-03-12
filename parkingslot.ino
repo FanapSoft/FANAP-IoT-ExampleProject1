@@ -11,7 +11,7 @@ PubSubClient client(espClient);
 char *device_id_list[] = {"DIc6029c0bd4a34551", "DId7ddaf4445a94e6e", "DIef535a26ffee408e", "DI63ce67763f18499d", "DIc6f182ed13844a87"};
 char *enc_key_list[] = {"KEY1", "KEY2", "KEY3", "KEY4", "KEY5"};
 bool enc_en_list[] = {false, false, false, false, false};
-int led_pin_list[] = {23, 22, 21, 19, 18};
+int led_pin_list[] = {22, 23, 21, 19, 17};
 int sensor_io_list[] = {A0, A3, A6, A7, A4};
 int sensor_low_threshold_list[] = {700, 700, 700, 700, 700};
 int sensor_high_threshold_list[] = {1000, 1000, 1000, 1000, 1000};
