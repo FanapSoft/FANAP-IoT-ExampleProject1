@@ -3,10 +3,12 @@
 #include <PubSubClient.h>
 
 #include "src/parkingcontroller.h"
+#include "src/ledblinker.h"
 
 ParkingController pc;
 WiFiClient espClient;
 PubSubClient client(espClient);
+LedBlinker health_led;
 
 char *device_id_list[] = {"DIc6029c0bd4a34551", "DId7ddaf4445a94e6e", "DIef535a26ffee408e", "DI63ce67763f18499d"};
 char *enc_key_list[] = {"KEY1", "KEY2", "KEY3", "KEY4", "KEY5"};
@@ -71,8 +73,12 @@ void mqtt_connect(int wait_ms)
     }
 }
 
+
 void setup()
 {
+    health_led.init(2);
+    static const int blink_pattern[] = {250,-100,250,-600,0};
+    health_led.set_pattern(blink_pattern);
 
     Serial.begin(115200);
 
@@ -135,5 +141,6 @@ void loop()
     {
         client.loop();
         pc.loop_handle();
+        health_led.handle();
     }
 }
