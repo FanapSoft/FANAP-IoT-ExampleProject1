@@ -10,7 +10,7 @@ WiFiClient espClient;
 PubSubClient client(espClient);
 LedBlinker health_led;
 
-char *device_id_list[] = {"DIc6029c0bd4a34551", "DId7ddaf4445a94e6e", "DIef535a26ffee408e", "DI63ce67763f18499d"};
+char *device_id_list[] = {"SLOT-1", "SLOT-2", "SLOT-3", "SLOT-4"};
 char *enc_key_list[] = {"KEY1", "KEY2", "KEY3", "KEY4", "KEY5"};
 bool enc_en_list[] = {false, false, false, false, false};
 int led_pin_list[] = {22, 23, 21, 19};
@@ -21,7 +21,7 @@ int sensor_low_threshold_list[] = {700, 700, 700, 700, 700};
 int sensor_high_threshold_list[] = {1000, 1000, 1000, 1000, 1000};
 
 
-char * gate_device_id = "GATE-ID";
+char * gate_device_id = "GATE-1";
 char * gate_enc_key = "GATE-KEY";
 const bool gate_enc_en = false;
 const int gate_led_pin = 12;
@@ -130,15 +130,24 @@ void setup()
     pc.mqtt_publish(publish);
 }
 
+int sub_req=0;
+
 void loop()
 {
 
     if (!client.connected())
     {
         mqtt_connect(300);
+        sub_req = 1;
     }
     else
     {
+        if (sub_req) {
+            sub_req = 0;
+            Serial.println("Resubscribe to MQTT topics....");
+            pc.mqtt_subscribe(subscribe);
+        }
+
         client.loop();
         pc.loop_handle();
         health_led.handle();
