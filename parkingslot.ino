@@ -13,7 +13,7 @@ LedBlinker health_led;
 char *device_id_list[] = {"SLOT-1", "SLOT-2", "SLOT-3", "SLOT-4"};
 char *enc_key_list[] = {"KEY1", "KEY2", "KEY3", "KEY4", "KEY5"};
 bool enc_en_list[] = {false, false, false, false, false};
-int led_pin_list[] = {22, 23, 21, 19};
+int led_pin_list[] = {19, 21, 22, 23};
 
 int sensor_io_list[] = {A0, A3, A6, A7};
 
@@ -24,7 +24,7 @@ int sensor_high_threshold_list[] = {1000, 1000, 1000, 1000, 1000};
 char * gate_device_id = "GATE-1";
 char * gate_enc_key = "GATE-KEY";
 const bool gate_enc_en = false;
-const int gate_led_pin = 12;
+const int gate_led_pin = 27;
 const int entry_sensor_io = A4;
 const int exist_sensor_io = A5;
 const int servo_io = 14;
