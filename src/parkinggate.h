@@ -51,6 +51,7 @@ class ParkingGate
     void set_led(LedState state);
     int led_update_time; // ToDo: Replace it with actual time
     int gate_update_time; // ToDo: Replace it with actual time
+    int state_data;
 
     int entry_sensor_changed_time; // ToDo: Replace it with actual time
     int exit_sensor_changed_time; // ToDo: Replace it with actual time
@@ -62,7 +63,7 @@ class ParkingGate
     void cmd_gate(const char * cmd);
     const char * get_str_led_state();
     const char * get_str_gate_state();
-
+    
 };
 
 #endif

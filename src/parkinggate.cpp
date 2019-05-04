@@ -50,6 +50,7 @@ void ParkingGate::init(char *device_id, char *enc_key, bool enc_en,
 
     send_full_report = true;
     gate_open_time = 10;
+    state_data = 0;
 }
 
 
@@ -137,6 +138,10 @@ void ParkingGate::apply_key_value_cmd(JsonPair cmd) {
         }
 
         report_job.set_period(period);
+    } else if (key == "sd") {
+        int value = cmd.value();
+        need_report = 1;
+        state_data = value;
     } else {
         need_report = 0;
     }
@@ -161,6 +166,7 @@ bool ParkingGate::send_periodic_report() {
         {"entry_sensor_state", field_data_t::NUM, (void*)entry_sensor.get_current_state()},
         {"exit_sensor_state", field_data_t::NUM, (void*)exit_sensor.get_current_state()},
         {"gate", field_data_t::STR, (void*)get_str_gate_state()},
+        {"sd", field_data_t::NUM, (void*)(state_data)},
         {"gate_last_update", field_data_t::NUM, (void*)(gate_update_time/1000)}, // READ NOTE -vv
         // NOTE: Don't change location of the "gate_last_update" in list
         // NOTE: parameters bellow "gate_last_update" will be reported only in full mode

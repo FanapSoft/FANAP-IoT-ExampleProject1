@@ -20,6 +20,7 @@
       {"name":"gate_low", "type":"Number"},
       {"name":"gate_high", "type":"Number"},
       {"name":"gate_last_update", "type":"Number"},
-      {"name":"report_period", "type":"Number"}
+      {"name":"report_period", "type":"Number"},
+      {"name":"sd", "type":"Number"}
     ]
 } 
