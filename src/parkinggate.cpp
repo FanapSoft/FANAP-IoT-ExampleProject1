@@ -230,16 +230,16 @@ void ParkingGate::cmd_led(const char * cmd) {
     if (cmd) {
         LedState state;
         bool change = false;
-        if (!strcmp(cmd, "G")) {
+        if (!stricmp(cmd, "G")) {
             state = ON;
             change = true;
-        } else if (!strcmp(cmd,"R")) {
+        } else if (!stricmp(cmd,"R")) {
             state = OFF;
             change = true;
-        } else if (!strcmp(cmd,"B1")) {
+        } else if (!stricmp(cmd,"B1")) {
             state = BLINK1;
             change = true;
-        } else if (!strcmp(cmd,"B2")) {
+        } else if (!stricmp(cmd,"B2")) {
             state = BLINK2;
             change = true;
         }
@@ -256,11 +256,11 @@ void ParkingGate::cmd_gate(const char * cmd) {
     if (cmd) {
         int update_time = millis();
 
-        if (!strcmp(cmd, "OPEN")) {
+        if (!stricmp(cmd, "OPEN")) {
             gate.open();
-        } else if (!strcmp(cmd,"CLOSE")) {
+        } else if (!stricmp(cmd,"CLOSE")) {
             gate.close();
-        } else if (!strcmp(cmd,"OPEN-CLOSE")) {
+        } else if (!stricmp(cmd,"OPEN-CLOSE")) {
             gate.open();
             closegate_job.run(gate_open_time*1000);
         } else {
