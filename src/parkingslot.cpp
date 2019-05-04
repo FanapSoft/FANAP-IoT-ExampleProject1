@@ -120,16 +120,16 @@ void ParkingSlot::cmd_led(const char * cmd) {
     if (cmd) {
         LedState state;
         bool change = false;
-        if (!stricmp(cmd, "G")) {
+        if (!strcasecmp(cmd, "G")) {
             state = ON;
             change = true;
-        } else if (!stricmp(cmd,"R")) {
+        } else if (!strcasecmp(cmd,"R")) {
             state = OFF;
             change = true;
-        } else if (!stricmp(cmd,"B1")) {
+        } else if (!strcasecmp(cmd,"B1")) {
             state = BLINK1;
             change = true;
-        } else if (!stricmp(cmd,"B2")) {
+        } else if (!strcasecmp(cmd,"B2")) {
             state = BLINK2;
             change = true;
         }
